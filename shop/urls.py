@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from MixWebShop.views import Main, DetailShippingAddress
 urlpatterns = [
+    path('', Main.as_view(), name='main'),
     path('admin/', admin.site.urls),
+    path('shipping/<int:pk>', DetailShippingAddress.as_view(), name='shipping_address'),
 ]

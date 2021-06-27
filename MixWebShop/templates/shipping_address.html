@@ -1,0 +1,28 @@
+{#{% extends "base.html" %}#}
+{#{% block content %}#}
+{#<header>#}
+{#This is your shipping info, please check is it correct#}
+{##}
+{#    <ul>#}
+{#    <li>Address: (street , number, apartment number){{ shipping_address.address_id }} </li>#}
+{#    <li>City: {{ shipping_address.city }} </li>#}
+{#    <li>Country: {{ shipping_address.country }} </li>#}
+{#    <li>Zip code: {{ shipping_address.zip_code }} </li>#}
+{#    <li>Phone number: (it is optional, but in our practice it helps your parcel to find you faster) {{ shipping_address.phone }} </li>#}
+{#</ul>#}
+{#</header>#}
+{##}
+{#{% endblock %}#}
+{% extends "base.html" %}
+{% block content %}
+<!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">MixWebShop</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Your shopping experience starts here</p>
+                </div>
+            </div>
+        </header>
+    <br>
+{% endblock %}

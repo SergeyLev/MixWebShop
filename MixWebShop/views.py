@@ -3,6 +3,9 @@ from .models import ShippingAddress, Person, Product, Admin, Category, User
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, DeleteView, CreateView, UpdateView
 
+class Main(TemplateView):
+    template_name = 'main.html'
+
 
 class DetailShippingAddress(DetailView):
     template_name = 'shipping_address.html'

@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, DeleteView, CreateView, UpdateView
 
 
-class ShippingAddress(DetailView):
+class DetailShippingAddress(DetailView):
     template_name = 'shipping_address.html'
     model = ShippingAddress
     context_object_name = 'shipping_adress'
@@ -30,3 +30,36 @@ class DeleteShippingAddress(DeleteView):
     model = ShippingAddress
     context_object_name = 'address'
     success_url = reverse_lazy('shipping_address')
+
+
+class ProductList(ListView):
+    template_name = 'product_list.html'
+    model = Product
+    context_object_name = 'products'
+
+
+class DetailProduct(DetailView):
+    template_name = 'detail_product.html'
+    model = Product
+    context_object_name = 'product'
+
+
+class CreateProduct(CreateView):  # with permision
+    template_name = 'create_product.html'
+    model = Product
+    success_url = reverse_lazy('products')
+    fields = '__all__'
+
+
+class ProductUpdate(UpdateView):
+    template_name = 'create_product.html'
+    model = Product
+    success_url = reverse_lazy('products')
+    context_object_name = 'product'
+
+
+class ProductDelete(DeleteView):
+    template_name = 'delete_product.html'
+    model = Product
+    context_object_name = 'product'
+    success_url = reverse_lazy('products')

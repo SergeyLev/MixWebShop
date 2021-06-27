@@ -9,11 +9,13 @@ class ShippingAddress(DetailView):
     model = ShippingAddress
     context_object_name = 'shipping_adress'
 
+
 class CreateShippingAddress(CreateView):
     template_name = 'create_shipping_address.html'
     model = ShippingAddress
     success_url = reverse_lazy('shipping_address')
     fields = '__all__'
+
 
 class UpdateShippingAddress(UpdateView):
     template_name = 'update_shipping_address.html'
@@ -21,6 +23,7 @@ class UpdateShippingAddress(UpdateView):
     success_url = reverse_lazy('shipping_address')
     fields = '__all__'
     context_object_name = 'address'
+
 
 class DeleteShippingAddress(DeleteView):
     template_name = 'delete_shipping_address.html'

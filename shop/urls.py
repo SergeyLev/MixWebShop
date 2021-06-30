@@ -15,9 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from MixWebShop.views import Main, DetailShippingAddress
+from MixWebShop.views import Main, ProductList, ProductDetail, ProductCreate, ProductUpdate, ProductDelete
+
+from django.conf.urls.static import static
+from django.conf import settings
+from django.urls import include
+
 urlpatterns = [
-    path('', Main.as_view(), name='main'),
     path('admin/', admin.site.urls),
-    path('shipping/<int:pk>', DetailShippingAddress.as_view(), name='shipping_address'),
+    path('', Main.as_view(), name='main'),
+    path('products', ProductList.as_view(), name='product_list'),
+    path('products/<int:pk>/detail', ProductDetail.as_view(), name='product_detail'),
+    path('products/<int:pk>/detail/delete', ProductDelete.as_view(), name='product_delete'),
+    path('products/<int:pk>/detail/update', ProductUpdate.as_view(), name='product_update'),
+    path('products/create', ProductCreate.as_view(), name='product_create'),
+
 ]

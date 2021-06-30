@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from MixWebShop.views import Main, ProductList, ProductDetail, ProductCreate, ProductUpdate, ProductDelete
+from MixWebShop.views import (Main, ProductList, ProductDetail, ProductCreate,
+                              ProductUpdate, ProductDelete, SignUpView,
+                              ProfileDetail, ProfileUpdate)
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -29,5 +31,10 @@ urlpatterns = [
     path('products/<int:pk>/detail/delete', ProductDelete.as_view(), name='product_delete'),
     path('products/<int:pk>/detail/update', ProductUpdate.as_view(), name='product_update'),
     path('products/create', ProductCreate.as_view(), name='product_create'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('sign-up/', SignUpView.as_view(), name='sign_up'),
+    path('accounts/profile/<int:pk>', ProfileDetail.as_view(),  name='profile_detail'),
+    path('accounts/profile/<int:pk>/update', ProfileUpdate.as_view(), name='profile_update'),
+
 
 ]

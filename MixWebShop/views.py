@@ -1,8 +1,8 @@
-from django.views.generic import (TemplateView, ListView, DetailView,
-                                  CreateView, UpdateView, DeleteView)
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Product, Profile
 from .forms import SignUpForm
 from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView
 
 
 class Main(TemplateView):

@@ -90,3 +90,4 @@ class CategoryDelete(DeleteView):
     model = Category
     context_object_name = 'category'
     success_url = reverse_lazy('category_list')
+

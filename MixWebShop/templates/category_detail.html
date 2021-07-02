@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<p>Name: {{category.name}} </p>
+
+<p>Category id number {{ category.category_id }}</p>
+    {% if category.category_id in product.category.id %}
+    <ul>
+    <li>
+        {{ product.product.name }}
+    </li>
+    </ul>
+{% endif %}
+
+<hr>
+
+<p>Click <a href="{% url 'category_update' category.category_id %}">here</a> to update category</p>
+<p>Click <a href="{% url 'category_delete' category.category_id %}">here</a> to delete category</p>
+
+{% endblock %}

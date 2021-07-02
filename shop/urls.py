@@ -19,7 +19,7 @@ from MixWebShop.views import (Main, ProductList, ProductDetail, ProductCreate,
                               ProductUpdate, ProductDelete, SignUpView,
                               ProfileDetail, ProfileUpdate, CategoryList, CategoryDetail,
                               CategoryCreate, CategoryUpdate, CategoryDelete)
-
+from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import include
@@ -41,5 +41,5 @@ urlpatterns = [
     path('category/<int:pk>/detail', CategoryDetail.as_view(), name='category_detail'),
     path('category/<int:pk>/detail/update', CategoryUpdate.as_view(), name='category_update'),
     path('category/<int:pk>/detail/delete', CategoryDelete.as_view(), name='category_delete'),
-
+    path('password/', auth_views.PasswordChangeView.as_view())
 ]

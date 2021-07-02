@@ -52,6 +52,7 @@
                         <hr>
                         {% if user.username %}
                             <li><a class="dropdown-item" href="{% url 'profile_detail' user.id %}">Profile</a></li>
+
                         {% else %}
                             <hr>
                             <li><a class="dropdown-item" href="{% url 'profile_update' user.id %}">update Profile</a>

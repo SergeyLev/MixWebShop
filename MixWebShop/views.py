@@ -2,6 +2,7 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from .models import Product, Profile, Category
 from .forms import SignUpForm
 from django.urls import reverse_lazy
+
 from django.contrib.auth.views import LoginView
 
 

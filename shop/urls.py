@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from MixWebShop.views import (Main, ProductList, ProductDetail, ProductCreate,
                               ProductUpdate, ProductDelete, SignUpView,
-                              ProfileDetail, ProfileUpdate)
+                              ProfileDetail, ProfileUpdate, CategoryList, CategoryDetail,
+                              CategoryCreate, CategoryUpdate, CategoryDelete)
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -35,6 +36,10 @@ urlpatterns = [
     path('sign-up/', SignUpView.as_view(), name='sign_up'),
     path('accounts/profile/<int:pk>', ProfileDetail.as_view(),  name='profile_detail'),
     path('accounts/profile/<int:pk>/update', ProfileUpdate.as_view(), name='profile_update'),
-
+    path('category', CategoryList.as_view(), name='category_list'),
+    path('category/create', CategoryCreate.as_view(), name='category_create'),
+    path('category/<int:pk>/detail', CategoryDetail.as_view(), name='category_detail'),
+    path('category/<int:pk>/detail/update', CategoryUpdate.as_view(), name='category_update'),
+    path('category/<int:pk>/detail/delete', CategoryDelete.as_view(), name='category_delete'),
 
 ]

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .constants import COUNTRIES
+
+
+# from .constants import COUNTRIES
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -11,12 +13,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
     name = models.TextField(max_length=100, null=False)
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     product_id = models.AutoField(primary_key=True)  # Primary key
@@ -36,4 +40,3 @@ class Product(models.Model):
 #     city = models.TextField(max_length=30, blank=False)
 #     zip_code = models.CharField(max_length=20, blank=False)
 #     country = models.CharField(max_length=50, null=True, blank=True, choices=COUNTRIES)
-

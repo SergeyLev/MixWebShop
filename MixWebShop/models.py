@@ -8,7 +8,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     name = models.TextField(max_length=100, null=True)
     surname = models.TextField(max_length=100, null=True)
-    date_of_birth = models.DateField(max_length=10, null=True)
+    date_of_birth = models.DateField(max_length=10)
 
     def __str__(self):
         return self.user.username
@@ -33,10 +33,20 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-# class UserAddress(models.Model):
-#     user_address_id = models.AutoField(primary_key=True, null=True, blank=True)
-#     full_name = models.ForeignKey(Profile, on_delete=models.CASCADE)
-#     address = models.CharField(max_length=100)
-#     city = models.TextField(max_length=30, blank=False)
-#     zip_code = models.CharField(max_length=20, blank=False)
-#     country = models.CharField(max_length=50, null=True, blank=True, choices=COUNTRIES)
+class ContactInfo(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    email = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.IntegerField(blank=True)
+
+class UserAddress(models.Model):
+    user_address_id = models.AutoField(primary_key=True, blank=True)
+    full_name = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100)
+    city = models.TextField(max_length=30, blank=False)
+    zip_code = models.CharField(max_length=20, blank=False)
+    country = models.CharField(max_length=50, null=True, blank=True)
+
+class ShippingAddress(models.Model):
+    shipping_id = models.AutoField(primary_key=True)
+    shipping_address = models.ForeignKey(UserAddress, on_delete=models.CASCADE)
+    contact_info = models.ForeignKey(ContactInfo, on_delete=models.CASCADE)

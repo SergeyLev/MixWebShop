@@ -63,21 +63,25 @@ class ProfileUpdate(UpdateView):
     success_url = reverse_lazy('profile_detail')
     context_object_name = 'profile'
 
+
 class CategoryList(ListView):
     template_name = 'category_list.html'
     model = Category
     context_object_name = 'categories'
+
 
 class CategoryDetail(DetailView):
     template_name = 'category_detail.html'
     model = Category
     context_object_name = 'category'
 
+
 class CategoryCreate(CreateView):
     template_name = 'category_create.html'
     model = Category
     success_url = reverse_lazy('category_list')
     fields = '__all__'
+
 
 class CategoryUpdate(UpdateView):
     template_name = 'category_update.html'
@@ -86,9 +90,9 @@ class CategoryUpdate(UpdateView):
     success_url = reverse_lazy('category_detail')
     context_object_name = 'category'
 
+
 class CategoryDelete(DeleteView):
     template_name = 'category_delete.html'
     model = Category
     context_object_name = 'category'
     success_url = reverse_lazy('category_list')
-

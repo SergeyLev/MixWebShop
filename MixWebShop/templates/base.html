@@ -55,7 +55,7 @@
 
                         {% else %}
                             <hr>
-                            <li><a class="dropdown-item" href="{% url 'profile_update' user.id %}">update Profile</a>
+                            <li><a class="dropdown-item" href="{% url 'profile_update' user.profile.pk %}">update Profile</a>
                             </li>
                             <hr>
 

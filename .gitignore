@@ -3,4 +3,4 @@ venv/*
 .idea
 .idea/*
 db.sqlite3
-identifier.sqlite
+db.sqlite3-journal

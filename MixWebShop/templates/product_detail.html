@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+{#{% if product.image %}#}
+{#    <p> <img src="{{ product.image.url}}" width="300" height=auto></p>#}
+{#{% endif %}#}
+
+<p>Name: {{product.name}} </p>
+{#<p>Category: {{product.category.name|default:'No category'}}</p>#}
+<p>Description: {{product.description}}</p>
+<p>Price: {{ product.price }}</p>
+<p>Availability: {{ product.available }}</p>
+<p>Product id number {{ product.product_id }}</p>
+
+
+<hr>
+
+<p>Click <a href="{% url 'product_update' product.product_id %}">here</a> to update product</p>
+<p>Click <a href="{% url 'product_delete' product.product_id %}">here</a> to delete product</p>
+
+{% endblock %}

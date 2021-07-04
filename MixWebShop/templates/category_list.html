@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if user.is_authenticated and request.user.is_staff %}
+    <a href="{% url 'category_create' %}"><b>create a new category</b></a>
+    {% endif %}
+<p>Category list:</p>
+
+    <ul>
+    {% for category in categories %}
+        <li><a href="{% url 'category_detail' category.category_id%}"> {{category.name}}</a></li>
+    {% endfor %}
+    </ul>
+
+<p></p>
+{% endblock %}

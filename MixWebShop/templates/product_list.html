@@ -7,7 +7,8 @@
 
     <ul>
     {% for product in products %}
-        <li><a href="{% url 'product_detail' product.product_id%}"> {{product.name}}</a></li>
+        <li><a href="{% url 'product_detail' product.product_id%}"> {{product.name}}</a>
+            <img src="{{ product.image }} " width = "60" height = "45" alt="There needs to be a picture but..."/></li>
     {% endfor %}
     </ul>
 

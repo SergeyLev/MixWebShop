@@ -3,9 +3,11 @@
 {% block content %}
 
 
-<p>User name: {{profile.user.username}}</p>
-<p>Name: {{profile.user.firstname}}</p>
-<p>Biography: {{profile.biography}}</p>
+<p>User name: {{user.profile}}</p>
+<p>Name: {{user.profile.name}}</p>
+<p>Surname: {{ user.profile.surname }}</p>
+<p>Date of birth: {{user.profile.date_of_birth}}</p>
+    <p>email: {{ profile.user.email }}</p>
 
 
 

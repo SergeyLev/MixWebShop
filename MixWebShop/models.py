@@ -8,7 +8,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     name = models.TextField(max_length=100, null=True)
     surname = models.TextField(max_length=100, null=True)
-    date_of_birth = models.DateField(max_length=10)
+    date_of_birth = models.DateField(max_length=10, default=True)
+
 
     def __str__(self):
         return self.user.username

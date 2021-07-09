@@ -5,7 +5,7 @@ from .models import Profile
 
 class SignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        fields = ['username']
+        fields = ['username', 'email']
 
     def save(self, commit=True):
         self.instance.is_active = True

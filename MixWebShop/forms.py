@@ -1,36 +1,38 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import Group
-from .models import Profile
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.models import User
+
 from django import forms
-from django.db import models
 
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=100)
-    first_name = forms.CharField(max_length=100)
-    last_name = forms.CharField(max_length=100)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
-    class Meta(UserCreationForm.Meta):
-        # constraints = [
-        #     models.UniqueConstraint(fields=['username',
-        #                                     'first_name',
-        #                                     'last_name',
-        #                                     'email'], name='unique in here')
-        # ]
-        fields = ['username',
-                  'first_name',
-                  'last_name',
-                  'email']
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
-    def save(self, commit=True):
-        self.instance.is_active = True
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
 
-        saved_user = super().save(commit)
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
 
-        simple_group = Group.objects.get(name='simple')
-        saved_user.groups.add(simple_group)
-        saved_user.save()
 
-        Profile.objects.create(user=saved_user)
+class ProfileUpdateForm(UserChangeForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_login = None
+    is_superuser = None
+    is_staff = None
+    is_active = None
+    date_joined = None
+    password = None
 
-        return saved_user
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')

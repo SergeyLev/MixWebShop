@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Public profile</h1>
+    <p>Your profile id : {{ user.id }}</p>
+
+
+    <hr>
+    Full name:
+    {{ profile.name }}
+    {{ profile.last_name }}
+    <hr>
+    <p> Email :{{ profile.email }}</p>
+
+
+
+
+    <p>Click <a href="{% url 'edit_public_profile' user.id %}">here</a> to update your public profile</p>
+    <hr>
+    <p>Click <a href="{% url 'profile_update' %}">here</a> to update your registration/login info</p>
+
+{% endblock %}

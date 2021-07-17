@@ -16,12 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from MixWebShop.views import (Main, ProductList, ProductDetail, ProductCreate,
-                              ProductUpdate, ProductDelete, SignUpView,
-                              ProfileDetail, ProfileUpdate, CategoryList, CategoryDetail,
-                              CategoryCreate, CategoryUpdate, CategoryDelete)
-from django.contrib.auth import views as auth_views
-from django.conf.urls.static import static
-from django.conf import settings
+                              ProductUpdate, ProductDelete, UserRegisterView, ProfileUpdate, ProfileDetail, ProfileEdit,
+                              CategoryList, CategoryDetail, PasswordsChangeView, ProfileCreat,
+                              CategoryCreate, CategoryUpdate, CategoryDelete, password_success)
+
 from django.urls import include
 
 urlpatterns = [
@@ -32,14 +30,17 @@ urlpatterns = [
     path('products/<int:pk>/detail/delete', ProductDelete.as_view(), name='product_delete'),
     path('products/<int:pk>/detail/update', ProductUpdate.as_view(), name='product_update'),
     path('products/create', ProductCreate.as_view(), name='product_create'),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('sign-up/', SignUpView.as_view(), name='sign_up'),
-    path('accounts/profile/<int:pk>', ProfileDetail.as_view(),  name='profile_detail'),
-    path('accounts/profile/<int:pk>/update', ProfileUpdate.as_view(), name='profile_update'),
+    path('', include('django.contrib.auth.urls')),
+    path('register/', UserRegisterView.as_view(), name='register'),
+    path('profile_update', ProfileUpdate.as_view(), name='profile_update'),
+    path('accounts/profile/<int:pk>/', ProfileDetail.as_view(),  name='profile_detail'),
+    path('accounts/profile/<int:pk>/edit_public_profile', ProfileEdit.as_view(), name='edit_public_profile'),
+    path('accounts/profile/create', ProfileCreat.as_view(), name='profile_create'),
     path('category', CategoryList.as_view(), name='category_list'),
     path('category/create', CategoryCreate.as_view(), name='category_create'),
     path('category/<int:pk>/detail', CategoryDetail.as_view(), name='category_detail'),
     path('category/<int:pk>/detail/update', CategoryUpdate.as_view(), name='category_update'),
     path('category/<int:pk>/detail/delete', CategoryDelete.as_view(), name='category_delete'),
-    path('password/', auth_views.PasswordChangeView.as_view())
+    path('password/', PasswordsChangeView.as_view(template_name='registration/change-password.html'), name='change_password'),
+    path('password_success', password_success, name='password_success')
 ]

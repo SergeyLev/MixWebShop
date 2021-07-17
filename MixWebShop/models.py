@@ -2,19 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# from .constants import COUNTRIES
-
 class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile_user')
-    name = models.OneToOneField(unique=True, to=User, on_delete=models.CASCADE, related_query_name='profile_name',
-                                default='')
-    surname = models.OneToOneField(unique=True, to=User, on_delete=models.CASCADE, related_name='profile_surname',
-                                   default='')
-    date_of_birth = models.DateField(max_length=10, null=True)
-    email = models.EmailField(unique=True)
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    name = models.TextField(max_length=100)
+    last_name = models.TextField(max_length=100)
+    email = models.EmailField()
 
     def __str__(self):
-        return self.user.username
+        return str(self.user)
 
 
 class Category(models.Model):
@@ -37,23 +32,22 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
-class ContactInfo(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    email = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.IntegerField(blank=True)
-
-
-class UserAddress(models.Model):
-    user_address_id = models.AutoField(primary_key=True, blank=True)
-    full_name = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    address = models.CharField(max_length=100)
-    city = models.TextField(max_length=30, blank=False)
-    zip_code = models.CharField(max_length=20, blank=False)
-    country = models.CharField(max_length=50, null=True, blank=True)
-
-
-class ShippingAddress(models.Model):
-    shipping_id = models.AutoField(primary_key=True)
-    shipping_address = models.ForeignKey(UserAddress, on_delete=models.CASCADE)
-    contact_info = models.ForeignKey(ContactInfo, on_delete=models.CASCADE)
+# class ContactInfo(models.Model):
+#     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+#     email = models.OneToOneField(User, on_delete=models.CASCADE)
+#     phone = models.IntegerField(blank=True)
+#
+#
+# class UserAddress(models.Model):
+#     user_address_id = models.AutoField(primary_key=True, blank=True)
+#     full_name = models.ForeignKey(Profile, on_delete=models.CASCADE)
+#     address = models.CharField(max_length=100)
+#     city = models.TextField(max_length=30, blank=False)
+#     zip_code = models.CharField(max_length=20, blank=False)
+#     country = models.CharField(max_length=50, null=True, blank=True)
+#
+#
+# class ShippingAddress(models.Model):
+#     shipping_id = models.AutoField(primary_key=True)
+#     shipping_address = models.ForeignKey(UserAddress, on_delete=models.CASCADE)
+#     contact_info = models.ForeignKey(ContactInfo, on_delete=models.CASCADE)

@@ -1,9 +1,11 @@
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Product, Profile, Category
-from .forms import SignUpForm
+from django.views.generic import (TemplateView, ListView, DetailView,
+                                  CreateView, UpdateView, DeleteView)
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from .models import Product, Category, Profile
+from .forms import SignUpForm, ProfileUpdateForm
 from django.urls import reverse_lazy
-
-from django.contrib.auth.views import LoginView
+from django.shortcuts import render, get_object_or_404
 
 
 class Main(TemplateView):
@@ -44,24 +46,59 @@ class ProductDelete(DeleteView):
     success_url = reverse_lazy('product_list')
 
 
-class SignUpView(CreateView):
-    template_name = 'profile_create.html'
-    success_url = reverse_lazy('main')
+class UserRegisterView(CreateView):
     form_class = SignUpForm
-
-
-class ProfileDetail(DetailView):
-    template_name = 'profile_detail.html'
-    model = Profile
-    context_object_name = 'profile'
+    template_name = 'registration/registration.html'
+    success_url = reverse_lazy('login')
 
 
 class ProfileUpdate(UpdateView):
-    template_name = 'profile_update.html'
+    form_class = ProfileUpdateForm
+    template_name = 'registration/profile_update.html'
+    success_url = reverse_lazy('main')
+
+    def get_object(self, **kwargs):
+        return self.request.user
+
+
+class PasswordsChangeView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('password_success')
+
+
+def password_success(request):
+    return render(request, 'registration/password_success.html', {})
+
+
+class ProfileDetail(DetailView):
+    template_name = 'registration/profile_detail.html'
     model = Profile
-    fields = '__all__'
-    success_url = reverse_lazy('profile_detail')
-    context_object_name = 'profile'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProfileDetail, self).get_context_data(*args, **kwargs)
+
+        page_user = get_object_or_404(Profile, id=self.kwargs['pk'])
+
+        context['page_user'] = page_user
+        return context
+
+
+class ProfileEdit(UpdateView):
+    model = Profile
+    template_name = 'registration/edit_profile_page.html'
+    fields = ['name', 'last_name', 'email']
+    success_url = reverse_lazy('main')
+
+
+class ProfileCreat(CreateView):
+    model = Profile
+    fields = ['name', 'last_name', 'email']
+    template_name = 'registration/profile_create.html'
+    success_url = reverse_lazy('main')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class CategoryList(ListView):

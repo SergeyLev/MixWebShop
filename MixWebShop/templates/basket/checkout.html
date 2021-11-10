@@ -1,0 +1,56 @@
+{#<img src="https://media.giphy.com/media/sDcfxFDozb3bO/giphy.gif" alt="pam pa ram, you are out of money">#}
+{% extends "base.html" %}
+{% block content %}
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+
+
+    <a class="btn btn-outline-dark" href="{% url 'basket' %}"> Back to basket</a>
+    <hr>
+    <h3 style="text-align: center">Order Summary</h3>
+    <hr>
+    <h5 style="color: #a52834">Items: {{ order.get_basket_items }}</h5>
+    <h5 style="color: darkgreen"><u>Total: {{ order.get_basket_total }}</u></h5>
+    <hr>
+    {% for item in items %}
+        <table style="width:auto" , align="center">
+            <tr>
+                <th>Item image</th>
+                <th>Product name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+            <tr>
+                <td>
+                    <div style="flex:2"><img src="{{ item.product.image }} " width="120" height="90"
+                                             alt="There needs to be a picture but..."/></div>
+                </td>
+                <td>
+                    <div style="flex:2"><p>{{ item.product.name }}</p></div>
+                </td>
+                <td>
+                    <div style="flex:1"><p>{{ item.product.price }}</p></div>
+                </td>
+                <td>
+                    <div style="flex:1"><p> {{ item.quantity }}</p></div>
+                </td>
+            </tr>
+        </table>
+
+    {% endfor %}
+
+
+    <div class="col-lg-6">
+        <div class="box-element">
+
+        </div>
+    </div>
+    <hr>
+    <h5 style="color: #a52834">Items: {{ order.get_basket_items }}</h5>
+    <h5 style="color: darkgreen"><u>Total: {{ order.get_basket_total }}</u></h5>
+    <hr>
+
+{% endblock %}

@@ -1,16 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
     {% if user.is_authenticated and request.user.is_staff %}
-    <a href="{% url 'product_create' %}"><b>add new product</b></a>
+        <a href="{% url 'product_create' %}"><b>add new product</b></a>
     {% endif %}
-<p>Product list:</p>
 
-    <ul>
-    {% for product in products %}
-        <li><a href="{% url 'product_detail' product.product_id%}"> {{product.name}}</a>
-            <img src="{{ product.image }} " width = "60" height = "45" alt="There needs to be a picture but..."/></li>
-    {% endfor %}
-    </ul>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
 
-<p></p>
+        {% for product in products %}
+            <div class="col mb-4">
+
+                <div class="card text-center" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title"><a
+                                href="{% url 'product_detail' product.product_id %}"> {{ product.name }}</a></h5>
+
+                        {% if product.description %}
+                            <p>{{ product.description }}</p>
+                        {% else %}
+                            <p class="card-text">you need to add description or else i will eat all your cookies</p>
+                        {% endif %}
+                        <p><a href="{% url 'product_detail' product.product_id %}">
+                            <img src="{{ product.image }} " width="60" height="45"
+                                 alt="There needs to be a picture but..."/></a></p>
+                        <p><b>{{ product.price }}</b></p>
+                        <button type="button" class="btn-sm btn-secondary"><i class="bi bi-plus"></i> Add to wish list
+                        </button>
+                        <button data-product="{{ product.product_id }}" data-action="add"
+                                class="btn btn-outline-secondary add-btn update-basket">Add to basket
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock %}

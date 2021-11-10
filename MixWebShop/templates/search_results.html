@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div style="text-align: center;">
+        {% if searched %}
+
+            <h1>You searched for {{ searched }}</h1>
+            <br>
+            {% for product in product %}
+                <p><a href="{% url 'product_detail' product.product_id %}">
+                    <img src="{{ product.image }} " width="60" height="45"
+                         alt="There needs to be a picture but..."/></a></p>
+                <a href="{% url 'product_detail' product.product_id %}">{{ product }} </a>
+                <button data-product="{{ product.product_id }}" data-action="add"
+                        class="btn-sm btn-outline-secondary add-btn update-basket">Add to basket
+                </button>
+                <br>
+                actual price : - {{ product.price }}
+                <br>
+            {% endfor %}
+        {% else %}
+            <h1>
+                You need to type something
+            </h1>
+        {% endif %}
+
+    </div>
+
+
+
+{% endblock %}

@@ -18,7 +18,8 @@ from django.urls import path
 from MixWebShop.views import (Main, ProductList, ProductDetail, ProductCreate,
                               ProductUpdate, ProductDelete, UserRegisterView, ProfileUpdate, ProfileDetail, ProfileEdit,
                               CategoryList, CategoryDetail, PasswordsChangeView, ProfileCreat,
-                              CategoryCreate, CategoryUpdate, CategoryDelete, password_success)
+                              CategoryCreate, CategoryUpdate, CategoryDelete, password_success, basket, checkout,
+                              updateItem, search_results)
 
 from django.urls import include
 
@@ -33,7 +34,7 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', UserRegisterView.as_view(), name='register'),
     path('profile_update', ProfileUpdate.as_view(), name='profile_update'),
-    path('accounts/profile/<int:pk>/', ProfileDetail.as_view(),  name='profile_detail'),
+    path('accounts/profile/<int:pk>/', ProfileDetail.as_view(), name='profile_detail'),
     path('accounts/profile/<int:pk>/edit_public_profile', ProfileEdit.as_view(), name='edit_public_profile'),
     path('accounts/profile/create', ProfileCreat.as_view(), name='profile_create'),
     path('category', CategoryList.as_view(), name='category_list'),
@@ -41,6 +42,12 @@ urlpatterns = [
     path('category/<int:pk>/detail', CategoryDetail.as_view(), name='category_detail'),
     path('category/<int:pk>/detail/update', CategoryUpdate.as_view(), name='category_update'),
     path('category/<int:pk>/detail/delete', CategoryDelete.as_view(), name='category_delete'),
-    path('password/', PasswordsChangeView.as_view(template_name='registration/change-password.html'), name='change_password'),
-    path('password_success', password_success, name='password_success')
+    path('password/', PasswordsChangeView.as_view(template_name='registration/change-password.html'),
+         name='change_password'),
+    path('password_success', password_success, name='password_success'),
+    path('basket/', basket, name='basket'),
+    path('checkout/', checkout, name='checkout'),
+    path('update_item/', updateItem, name='update_item'),
+    path('search_results/', search_results, name='search_results'),
+
 ]

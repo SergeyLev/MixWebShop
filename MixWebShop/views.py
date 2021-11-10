@@ -2,10 +2,12 @@ from django.views.generic import (TemplateView, ListView, DetailView,
                                   CreateView, UpdateView, DeleteView)
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
-from .models import Product, Category, Profile
+from .models import Product, Category, Profile, Order, OrderItem
 from .forms import SignUpForm, ProfileUpdateForm
 from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404
+import json
+from django.http import JsonResponse
 
 
 class Main(TemplateView):
@@ -133,3 +135,77 @@ class CategoryDelete(DeleteView):
     model = Category
     context_object_name = 'category'
     success_url = reverse_lazy('category_list')
+
+
+def basket(request):
+    if request.user.is_authenticated:
+        customer = request.user.profile
+        order, created = Order.objects.get_or_create(customer=customer,
+                                                     delivered=False)
+        items = order.orderitem_set.all()
+        basketItems = order.get_basket_items
+    else:
+        try:
+            basket = json.loads(request.COOKIES['basket'])
+        except:
+            basket = {}
+            print('BASKET:', basket)
+        items = []
+        order = {'get_basket_total': 0, 'get_basket_items': 0}
+        basketItems = order['get_basket_items']
+    context = {'items': items, 'order': order, 'basketItems': basketItems}
+    return render(request, 'basket/basket.html', context)
+
+
+def checkout(request):
+    if request.user.is_authenticated:
+        customer = request.user.profile
+        order, created = Order.objects.get_or_create(customer=customer, delivered=False)
+        items = order.orderitem_set.all()
+    else:
+        order = {'get_cart_total': 0, 'get_car_items': 0}
+        items = []
+    context = {'items': items, 'order': order}
+    return render(request, 'basket/checkout.html', context)
+
+
+def updateItem(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    print('Action:', action)
+    print('Product:', productId)
+
+    customer = request.user.profile
+    product = Product.objects.get(product_id=productId)
+    order, created = Order.objects.get_or_create(customer=customer, delivered=False)
+
+    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+
+    if action == 'add':
+        orderItem.quantity = (orderItem.quantity + 1)
+    elif action == 'remove':
+        orderItem.quantity = (orderItem.quantity - 1)
+
+    orderItem.save()
+
+    if orderItem.quantity <= 0:
+        orderItem.delete()
+
+    return JsonResponse('Item was added', safe=False)
+
+
+def search_results(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
+        products = Product.objects.filter(name__contains=searched)
+        categories = Category.objects.filter(name__contains=searched)
+        return render(request,
+                      'search_results.html',
+                      {'searched': searched,
+                       'product': products,
+                       'category': categories})
+    else:
+        return render(request,
+                      'search_results.html',
+                      {})

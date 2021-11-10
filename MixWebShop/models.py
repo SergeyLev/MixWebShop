@@ -2,16 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    name = models.TextField(max_length=100)
-    last_name = models.TextField(max_length=100)
-    email = models.EmailField()
-
-    def __str__(self):
-        return str(self.user)
-
-
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
     name = models.TextField(max_length=100, null=False)
@@ -32,22 +22,60 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-# class ContactInfo(models.Model):
-#     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-#     email = models.OneToOneField(User, on_delete=models.CASCADE)
-#     phone = models.IntegerField(blank=True)
-#
-#
-# class UserAddress(models.Model):
-#     user_address_id = models.AutoField(primary_key=True, blank=True)
-#     full_name = models.ForeignKey(Profile, on_delete=models.CASCADE)
-#     address = models.CharField(max_length=100)
-#     city = models.TextField(max_length=30, blank=False)
-#     zip_code = models.CharField(max_length=20, blank=False)
-#     country = models.CharField(max_length=50, null=True, blank=True)
-#
-#
-# class ShippingAddress(models.Model):
-#     shipping_id = models.AutoField(primary_key=True)
-#     shipping_address = models.ForeignKey(UserAddress, on_delete=models.CASCADE)
-#     contact_info = models.ForeignKey(ContactInfo, on_delete=models.CASCADE)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    name = models.TextField(max_length=100)
+    last_name = models.TextField(max_length=100)
+    email = models.EmailField()
+    wish_list = models.ManyToManyField(Product)
+
+    def __str__(self):
+        return str(self.user)
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    delivered = models.BooleanField(default=False)
+    order_id = models.CharField(max_length=50, null=True)
+
+    def __str__(self):
+        return str(self.id)
+
+    @property
+    def get_basket_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+
+    @property
+    def get_basket_items(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems])
+        return total
+
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total(self):
+        total = self.product.price * self.quantity
+        return total
+
+
+class ShippingAddress(models.Model):
+    customer = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    address = models.CharField(max_length=200, null=False)
+    city = models.CharField(max_length=50, null=False)
+    district = models.CharField(max_length=50, null=False)
+    zip_code = models.CharField(max_length=50, null=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.address)
